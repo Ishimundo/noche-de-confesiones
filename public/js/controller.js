@@ -1,6 +1,3 @@
-// --- CONTROLADOR (Controller) ---
-// Conecta la Vista y el Modelo. Escucha los eventos y orquesta el juego.
-
 import gameState, * as model from './model.js';
 import DOM, * as view from './view.js';
 
@@ -27,15 +24,15 @@ function startTurn() {
     
     if (gameState.skipTurn) {
         gameState.skipTurn = false;
-        view.showWildcard({ title: "Turno Saltado", description: "Te has librado... por ahora."});
+        view.showCard({ type: 'wildcard', title: "Turno Saltado", description: "Te has librado... por ahora."});
         return;
     }
     
-    // 25% de probabilidad de comodín
+    // 25% de probabilidad de carta especial
     if (Math.random() < 0.25) {
-        const card = model.triggerWildcard();
-        view.showWildcard(card);
-        // Si el comodín afectó a todos, actualizar vista de todos los jugadores
+        const card = model.triggerCard();
+        view.showCard(card);
+        // Si la carta afectó a todos, actualizar la vista del jugador actual
         if (card.title === "Bebida para Todos") view.showTurn(player, gameState.isCompetitive, gameState.turnOrder);
     } else {
         view.showNormalTurn();
@@ -48,9 +45,22 @@ function getQuestion(type) {
 }
 
 function handleOutcome(wasSuccessful) {
-    if(wasSuccessful) { model.updatePointsForCurrentPlayer(true); } 
-    else { model.addDrinkToCurrentPlayer(); }
-    nextPlayer();
+    if(wasSuccessful) { 
+        model.updatePointsForCurrentPlayer(true);
+        nextPlayer();
+    } else { 
+        const punishment = model.getSkipPunishment();
+        view.showConfirmationModal(
+            "¡Te has negado!", 
+            `Como castigo, ${punishment}.`, 
+            () => {
+                model.addDrinkToCurrentPlayer(); // Opcional, el castigo principal es el shot
+                view.hideModal();
+                nextPlayer();
+            }
+        );
+        DOM.modal.cancelBtn.classList.add('hidden');
+    }
 }
 
 function nextPlayer() {
@@ -73,6 +83,9 @@ function resetAndGoToMenu() {
 
 function setupEventListeners() {
     DOM.buttons.startPlaying.addEventListener('click', () => view.showSection('mode'));
+    DOM.buttons.howToPlayBtn.addEventListener('click', () => view.showSection('rules'));
+    DOM.buttons.backToMainFromRulesBtn.addEventListener('click', () => view.showSection('main'));
+
     DOM.buttons.modeButtons.addEventListener('click', (e) => {
         if (e.target.tagName === 'BUTTON') selectMode(e.target.dataset.mode);
     });
@@ -134,7 +147,6 @@ function setupEventListeners() {
     DOM.modal.cancelBtn.addEventListener('click', view.hideModal);
 }
 
-// --- Inicialización de la Aplicación ---
 document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     view.showSection('main');

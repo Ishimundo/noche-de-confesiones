@@ -10,25 +10,56 @@
 <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
 
     <div id="app-container" class="w-full max-w-lg mx-auto">
+        <!-- PANTALLA DE INICIO -->
         <div id="main-menu-section" class="card-bg rounded-2xl p-6 shadow-2xl fade-in">
             <h1 class="text-4xl font-bold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-red-400">Noche de Confesiones</h1>
             <p class="text-center text-gray-400 mb-6">El juego que tus amigos nunca olvidarán.</p>
             <div class="grid grid-cols-1 gap-4">
                 <button id="start-playing-btn" class="w-full bg-teal-500 text-gray-900 font-bold py-3 px-4 rounded-lg hover:bg-teal-600">Empezar a Jugar</button>
+                <button id="how-to-play-btn" class="w-full bg-gray-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-700">¿Cómo Jugar?</button>
             </div>
         </div>
+
+        <!-- REGLAS DEL JUEGO -->
+        <div id="rules-section" class="card-bg rounded-2xl p-6 shadow-2xl hidden text-left">
+            <h1 class="text-3xl font-bold text-center mb-4 text-teal-400">Reglas del Juego</h1>
+            <div class="space-y-4 text-gray-300 max-h-[60vh] overflow-y-auto pr-2">
+                <p>¡Bienvenido! Elige un modo, añade a los jugadores y prepárate para una noche de risas y secretos. En cada turno, la app elegirá un jugador que deberá escoger entre **Verdad** o **Reto**.</p>
+                <div>
+                    <h2 class="font-bold text-xl text-white mb-2">⚠️ Castigos por Cobardía ⚠️</h2>
+                    <p>Negarse a cumplir un reto o a decir una verdad tiene consecuencias. El castigo depende de la intensidad del modo:</p>
+                    <ul class="list-disc list-inside mt-2">
+                        <li><span class="font-semibold text-purple-300">Modo Clásico:</span> Tomas **1 shot puro**.</li>
+                        <li><span class="font-semibold text-rose-300">Modo Caliente:</span> El castigo sube a **2 shots puros**.</li>
+                        <li><span class="font-semibold text-red-400">Modo Extremo:</span> Debes tomar **3 shots puros** o someterte a un castigo mayor que decida el grupo.</li>
+                    </ul>
+                </div>
+                 <div>
+                    <h2 class="font-bold text-xl text-white mb-2">🃏 Comodines (Para el Caos y las Risas) 🃏</h2>
+                     <p>Estas cartas aparecen al azar y añaden eventos locos a la partida.</p>
+                </div>
+                 <div>
+                    <h2 class="font-bold text-xl text-white mb-2">💣 ¡Bombas! (Castigos Inesperados) 💣</h2>
+                    <p>Si te toca una de estas, ¡mala suerte! Son castigos directos e inmediatos que solo te afectan a ti.</p>
+                </div>
+            </div>
+             <button id="back-to-main-from-rules-btn" class="w-full mt-6 bg-teal-500 text-gray-900 font-bold py-3 px-4 rounded-lg hover:bg-teal-600">Entendido</button>
+        </div>
         
+        <!-- SELECCIÓN DE MODO -->
         <div id="mode-selection-section" class="card-bg rounded-2xl p-6 shadow-2xl hidden">
             <h1 class="text-3xl font-bold text-center mb-6 text-teal-400">Elige el Modo de Juego</h1>
             <div id="mode-buttons" class="grid grid-cols-1 gap-4">
-                <button data-mode="classic" class="w-full bg-purple-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-purple-700">Clásico</button>
-                <button data-mode="hot" class="w-full bg-rose-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-rose-700">Modo Caliente 🔥</button>
-                <button data-mode="extreme" class="w-full bg-red-800 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-900">Modo Extremo 🔞</button>
-                <button data-mode="teams" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700">Chicos 💙 vs Chicas 💖</button>
+                <button data-mode="rompehielos" class="w-full bg-cyan-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-cyan-700">🧊 Rompehielos</button>
+                <button data-mode="classic" class="w-full bg-purple-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-purple-700">🎉 Clásico</button>
+                <button data-mode="hot" class="w-full bg-rose-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-rose-700">🔥 Caliente</button>
+                <button data-mode="extreme" class="w-full bg-red-800 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-900">🌶️ Extremo</button>
+                <button data-mode="remoto" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700">📡 Conexión Remota</button>
             </div>
-             <button id="back-to-main-menu-btn" class="w-full mt-4 text-gray-400 hover:text-white">Volver</button>
+             <button id="back-to-main-menu-btn" class="w-full mt-4 text-gray-400 hover:text-white">Volver al Inicio</button>
         </div>
         
+        <!-- El resto del HTML no cambia -->
         <div id="custom-questions-section" class="card-bg rounded-2xl p-6 shadow-2xl hidden">
             <h1 class="text-2xl font-bold text-center mb-4">Añade Tus Propias Reglas</h1>
             <div class="grid grid-cols-2 gap-4">
@@ -113,7 +144,7 @@
                     </div>
                     <div id="outcome-buttons" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                         <button id="success-btn" class="bg-green-600 font-bold py-3 px-4 rounded-lg">Cumplido (+2 Pts)</button>
-                        <button id="fail-btn" class="bg-red-600 font-bold py-3 px-4 rounded-lg">Fallado (+1 Trago)</button>
+                        <button id="fail-btn" class="bg-red-600 font-bold py-3 px-4 rounded-lg">Me niego (Castigo)</button>
                     </div>
                     <div id="next-turn-button-container" class="hidden mt-8">
                          <button id="next-turn-btn" class="w-full bg-gray-200 text-gray-800 font-bold py-3 px-4 rounded-lg">Siguiente Turno</button>
@@ -135,6 +166,7 @@
         </div>
     </div>
 
+    <!-- Scripts -->
     <script type="module" src="js/controller.js"></script>
 </body>
 </html>

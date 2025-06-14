@@ -1,12 +1,9 @@
-// --- VISTA (View) ---
-// Gestiona todo lo relacionado con el DOM (mostrar y ocultar elementos, actualizar texto, etc.).
-
 const getEl = (id) => document.getElementById(id);
 
 const DOM = {
-    sections: { main: getEl('main-menu-section'), mode: getEl('mode-selection-section'), custom: getEl('custom-questions-section'), setup: getEl('setup-section'), game: getEl('game-section') },
+    sections: { main: getEl('main-menu-section'), rules: getEl('rules-section'), mode: getEl('mode-selection-section'), custom: getEl('custom-questions-section'), setup: getEl('setup-section'), game: getEl('game-section') },
     gameSubSections: { turn: getEl('turn-section'), scoreboard: getEl('scoreboard') },
-    buttons: { startPlaying: getEl('start-playing-btn'), modeButtons: getEl('mode-buttons'), backToMain: getEl('back-to-main-menu-btn'), addCustomTruth: getEl('add-custom-truth-btn'), addCustomDare: getEl('add-custom-dare-btn'), continueToPlayers: getEl('continue-to-players-btn'), addPlayer: getEl('add-player-btn'), addBoy: getEl('add-boy-btn'), addGirl: getEl('add-girl-btn'), startGame: getEl('start-game-btn'), backToMode: getEl('back-to-mode-btn'), truthBtn: getEl('truth-btn'), dareBtn: getEl('dare-btn'), successBtn: getEl('success-btn'), failBtn: getEl('fail-btn'), nextTurnBtn: getEl('next-turn-btn'), endGameBtn: getEl('end-game-btn'), addDrinkBtn: getEl('add-drink-btn') },
+    buttons: { startPlaying: getEl('start-playing-btn'), howToPlayBtn: getEl('how-to-play-btn'), backToMainFromRulesBtn: getEl('back-to-main-from-rules-btn'), modeButtons: getEl('mode-buttons'), backToMain: getEl('back-to-main-menu-btn'), addCustomTruth: getEl('add-custom-truth-btn'), addCustomDare: getEl('add-custom-dare-btn'), continueToPlayers: getEl('continue-to-players-btn'), addPlayer: getEl('add-player-btn'), addBoy: getEl('add-boy-btn'), addGirl: getEl('add-girl-btn'), startGame: getEl('start-game-btn'), backToMode: getEl('back-to-mode-btn'), truthBtn: getEl('truth-btn'), dareBtn: getEl('dare-btn'), successBtn: getEl('success-btn'), failBtn: getEl('fail-btn'), nextTurnBtn: getEl('next-turn-btn'), endGameBtn: getEl('end-game-btn'), addDrinkBtn: getEl('add-drink-btn') },
     inputs: { customTruth: getEl('custom-truth-input'), customDare: getEl('custom-dare-input'), playerName: getEl('player-name-input'), boyName: getEl('boys-name-input'), girlName: getEl('girls-name-input'), gender: () => document.querySelector('input[name="gender"]:checked').value, enablePoints: getEl('enable-points-checkbox') },
     displays: { setupTitle: getEl('setup-title'), customTruthList: getEl('custom-truth-list'), customDareList: getEl('custom-dare-list'), playerList: getEl('player-list'), boysList: getEl('boys-list'), girlsList: getEl('girls-list'), individualSetup: getEl('individual-player-setup'), teamSetup: getEl('team-player-setup'), scoreboardList: getEl('scoreboard-list'), currentPlayer: getEl('current-player-display'), drinkCount: getEl('drink-count'), question: getEl('question-display'), wildcard: getEl('wildcard-display'), wildcardTitle: getEl('wildcard-title'), wildcardDescription: getEl('wildcard-description'), },
     containers: { choiceButtons: getEl('choice-buttons'), outcomeButtons: getEl('outcome-buttons'), nextTurnButton: getEl('next-turn-button-container'), playerListContainer: getEl('player-list-container')},
@@ -85,10 +82,16 @@ export function showQuestion(question, isCompetitive) {
     else DOM.containers.nextTurnButton.classList.remove('hidden');
 }
 
-export function showWildcard(card) {
+export function showCard(card) {
     DOM.displays.question.classList.add('hidden');
     DOM.displays.wildcard.classList.remove('hidden');
-    DOM.displays.wildcardTitle.innerText = `🃏 ¡COMODÍN! 🃏\n${card.title}`;
+    if (card.type === 'bomb') {
+        DOM.displays.wildcardTitle.innerText = `💣 ¡BOMBA! 💣\n${card.title}`;
+        DOM.displays.wildcardTitle.className = 'text-3xl font-bold text-red-500 mb-2';
+    } else {
+        DOM.displays.wildcardTitle.innerText = `🃏 ¡COMODÍN! 🃏\n${card.title}`;
+        DOM.displays.wildcardTitle.className = 'text-3xl font-bold text-yellow-400 mb-2';
+    }
     DOM.displays.wildcardDescription.innerText = card.description;
     DOM.containers.choiceButtons.classList.add('hidden');
     DOM.containers.nextTurnButton.classList.remove('hidden');
