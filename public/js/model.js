@@ -1,253 +1,41 @@
-// --- MODELO (Model) ---
-// Gestiona todos los datos y la lógica del juego.
-
 const questionsData = {
-    rompehielos: { 
-        truths: [
-            "Si pudieras tener un superpoder, ¿cuál sería y por qué?",
-            "¿Cuál es la comida más rara que has probado?",
-            "Si pudieras cenar con cualquier personaje histórico, ¿quién sería?",
-            "¿Cuál fue el último concierto al que fuiste?",
-            "¿Qué es lo primero que harías si ganaras la lotería?",
-            "¿Tienes algún talento oculto o inútil?",
-            "¿Cuál es la película que puedes ver mil veces sin aburrirte?",
-            "Si tu vida fuera una canción, ¿cuál sería el título?",
-            "¿Cuál es tu lugar favorito del mundo al que has viajado?",
-            "¿Qué personaje de ficción crees que se parece más a ti?",
-            "¿Cuál es el mejor consejo que te han dado?",
-            "Si pudieras hablar con los animales, ¿qué le preguntarías a tu mascota?",
-            "¿Cuál es tu 'placer culposo' en cuanto a música o TV?",
-            "Describe tu día perfecto de principio a fin.",
-            "¿Qué es algo que te apasione y de lo que podrías hablar durante horas?",
-            "¿Cuál es el sueño más extraño que recuerdes haber tenido?",
-            "Si pudieras eliminar una palabra del diccionario, ¿cuál sería?",
-            "¿Qué habilidad te gustaría aprender si tuvieras tiempo infinito?",
-            "¿Cuál es el objeto más preciado que posees y por qué?",
-            "Si fueras un sabor de helado, ¿cuál serías?"
-        ], 
-        dares: [
-            "Describe tu película favorita usando solo emojis y que el resto lo adivine.",
-            "Habla por un minuto sobre tu hobby sin usar la letra 'a'.",
-            "Encuentra el objeto más azul en la habitación y preséntalo como si fuera un trofeo.",
-            "Haz tu mejor imitación de un robot que se está quedando sin batería.",
-            "Crea un rap corto sobre lo que has comido hoy.",
-            "Intenta hacer malabares con tres objetos (que no se rompan).",
-            "Camina como un cangrejo de un lado a otro de la habitación.",
-            "Ponte los zapatos en las manos y úsalos como guantes por una ronda.",
-            "Haz una personificación dramática del pronóstico del tiempo.",
-            "Intenta lamerte el codo.",
-            "Construye una torre con los objetos que tengas a tu alcance.",
-            "Haz tu mejor grito de Tarzán.",
-            "Habla con voz de ópera durante tu próximo turno.",
-            "Haz una reverencia muy elaborada a cada persona en la sala.",
-            "Intenta ponerte un calcetín sin usar las manos.",
-            "Narra la acción de la persona a tu derecha como si fuera un documental de naturaleza.",
-            "Dile un piropo cursi a la pared.",
-            "Haz el baile del 'robot' durante 30 segundos.",
-            "Presenta el objeto a tu izquierda como si fuera un producto de teletienda.",
-            "Haz tu mejor risa malvada."
-        ] 
-    },
-    classic: { 
-        truths: [
-            "¿Cuál es la cosa más vergonzosa que te ha pasado en una cita?",
-            "¿Cuál es tu placer culposo que muy poca gente sabe?",
-            "¿Cuál fue la última mentira que dijiste y por qué?",
-            "¿Alguna vez has espiado el teléfono de alguien?",
-            "Si tuvieras que salir con alguien de esta sala, ¿quién sería?",
-            "¿Qué es lo más infantil que todavía haces?",
-            "¿Alguna vez te han pillado haciendo algo que no debías?",
-            "¿Cuál es el rumor más loco que has escuchado sobre ti?",
-            "Describe tu primera borrachera.",
-
-            "¿Te has hecho pasar por enfermo para no ir a trabajar o estudiar?",
-            "¿Qué es lo más raro que has comido por un reto?",
-            "¿Alguna vez has llorado en el cine? ¿Con qué película?",
-            "¿Cuál es la excusa más patética que has usado para cancelar un plan?",
-            "Si pudieras intercambiar tu vida con la de alguien en esta sala, ¿quién sería?",
-            "¿Cuál es tu mayor miedo irracional?",
-            "¿Alguna vez te ha gustado la pareja de un amigo/a?",
-            "¿Qué es lo que más te molesta de la persona a tu izquierda?",
-            "¿Has devuelto algo a una tienda después de haberlo usado?",
-            "¿Cuál es tu apodo más vergonzoso?",
-            "¿Qué es algo que finges que te gusta para encajar?"
-        ], 
-        dares: [
-            "Habla con un acento extraño durante las próximas 3 rondas.",
-            "Imita a alguien del grupo hasta que adivinen quién es.",
-            "Publica 'echo de menos a mi ex' en tus redes sociales y bórralo en 5 minutos.",
-            "Deja que el grupo revise tu historial de búsqueda de Google por un minuto.",
-            "Llama a un contacto al azar de tu teléfono y cántale 'Feliz Cumpleaños'.",
-            "Haz tu mejor paso de baile erótico en el centro de la sala.",
-            "Intercambia una prenda de ropa con la persona de tu derecha.",
-            "Deja que alguien te dibuje un bigote con un marcador (que se pueda borrar).",
-            "Haz una llamada en broma a una pizzería.",
-            "Cuenta un chiste. Si nadie se ríe, tomas un shot.",
-            "Ponte de rodillas y pidele matrimonio al objeto más cercano.",
-            "Intenta hacer twerking durante 30 segundos.",
-            "Huele la axila de la persona a tu derecha y describe el olor.",
-            "Haz una serenata dramática a otro jugador usando una canción de reguetón.",
-            "Deja que el grupo te peine de la forma más ridícula posible.",
-            "Come una cucharada de un condimento extraño de la nevera.",
-            "Corre alrededor de la casa a cuatro patas mientras ladras como un perro.",
-            "Haz una declaración de amor a la persona que menos te atrae del grupo.",
-            "Intenta ponerte los pantalones sin usar las manos.",
-            "Deja que el grupo te maquille como quiera."
-        ] 
-    },
-    hot: { 
-        truths: [
-            "¿Con quién de los presentes tendrías una aventura de una noche?",
-            "¿Cuál es el lugar más atrevido donde has tenido relaciones?",
-            "Describe tu fantasía sexual más recurrente.",
-            "¿Alguna vez has enviado 'nudes'? ¿A quién?",
-            "¿Cuál es la parte del cuerpo que te parece más atractiva en el sexo opuesto?",
-            "¿Qué es lo más pervertido que has buscado en internet?",
-            "¿Has estado en un trío?",
-            "Describe tu peor experiencia en la cama.",
-            "¿Cuál es el número de personas con las que te has acostado?",
-            "¿Has fingido un orgasmo? ¿Con quién?",
-            "¿Qué es algo que te excita instantáneamente?",
-            "¿Alguna vez te has grabado o te han grabado durante el sexo?",
-            "¿Quién de la sala crees que es mejor en la cama?",
-            "¿Has tenido un 'crush' con algún profesor o jefe?",
-            "¿Cuál es la mentira más grande que le has dicho a una pareja?",
-            "¿Has tenido alguna vez un 'amigo con derechos'?",
-            "Describe el beso más memorable que has dado o recibido.",
-            "¿Qué opinas del sexo en la primera cita?",
-            "¿Has usado juguetes sexuales? ¿Cuál es tu favorito?",
-            "Si tuvieras un 'pase libre' de una noche con alguien famoso, ¿quién sería?"
-        ], 
-        dares: [
-            "Besa en el cuello a la persona de tu derecha durante 10 segundos.",
-            "Quítate una prenda de ropa y juégala en la siguiente ronda.",
-            "Baila de la forma más sexy que puedas durante un minuto para el grupo.",
-            "Dale un beso francés de 20 segundos a la persona que elijas.",
-            "Susúrrale algo atrevido al oído a la persona a tu izquierda.",
-            "Elige a alguien y dale un masaje de 1 minuto en la parte del cuerpo que elija.",
-            "Deja que el grupo elija un contacto de tu teléfono al que debas enviar el emoji de la berenjena 🍆 o el melocotón 🍑.",
-            "Haz una pole dance imaginaria usando una escoba o una silla.",
-            "Chúpale el dedo a la persona que te parezca más atractiva del grupo.",
-            "Siéntate en el regazo de alguien hasta tu próximo turno.",
-            "Deja que alguien te escriba una palabra en el cuello con los labios.",
-            "Describe con detalles cómo sería tu cita perfecta y 'caliente'.",
-            "Quítale lentamente un calcetín a la persona de enfrente usando solo los dientes.",
-            "Hazle un 'lap dance' de 30 segundos a alguien del grupo.",
-            "Elige a dos personas del grupo para que se den un beso (pico).",
-            "Muerde suavemente el lóbulo de la oreja de la persona a tu derecha.",
-            "Elige a alguien para que te dé una nalgada.",
-            "Juega a 'piedra, papel o tijera' con alguien. El perdedor se quita una prenda.",
-            "Métete un cubito de hielo en la ropa interior y espera a que se derrita.",
-            "Deja que el grupo te esconda el móvil y solo te lo devolverán si cumples un reto extra."
-        ] 
-    },
-    extreme: { 
-        truths: [
-            "¿Cuál es el secreto más oscuro que nunca le has contado a nadie aquí?",
-            "Describe en detalle la última vez que te masturbaste pensando en alguien.",
-            "¿Qué es lo más ilegal que has hecho y salido impune?",
-            "¿Has engañado a alguna de tus parejas? Sé honesto y da detalles.",
-            "¿Cuál es tu fetiche más 'tabú' o inconfesable?",
-            "Si tuvieras que acostarte con una persona del grupo para salvar al mundo, ¿a quién elegirías y por qué?",
-            "Muestra la última foto íntima que recibiste o enviaste en tu teléfono.",
-            "¿Has participado en una orgía?",
-            "¿Qué es lo más degradante que has hecho por dinero o por placer?",
-            "¿Con cuántas personas de esta habitación te has imaginado teniendo sexo?",
-            "¿Has pagado por sexo o te han pagado por ello?",
-            "¿Cuál es el objeto más extraño que has usado como juguete sexual?",
-            "Describe la conversación más sucia que has tenido por chat.",
-            "¿Te has sentido atraído por algún familiar o familiar político?",
-            "¿Cuál es la fantasía sexual que te da vergüenza admitir que tienes?",
-            "¿Has grabado a alguien sin su consentimiento?",
-            "Si pudieras, ¿te acostarías con la pareja de tu mejor amigo/a?",
-            "¿Qué es algo que hiciste sexualmente de lo que te arrepientes profundamente?",
-            "¿Has tenido alguna experiencia homosexual, aunque te consideres heterosexual?",
-            "De todos los presentes, ¿a quién te llevarías a un cuarto oscuro ahora mismo?"
-        ], 
-        dares: [
-            "Lame una parte del cuerpo (a elección del grupo) de la persona a tu izquierda.",
-            "Intercambia una prenda de ropa interior con alguien del sexo opuesto por el resto del juego.",
-            "Llama a tu ex, ponlo en altavoz y dile que todavía piensas en él/ella de forma sexual.",
-            "Dale un beso francés apasionado de 30 segundos a la persona que el grupo elija para ti.",
-            "Quítate dos prendas de ropa y quédate así durante las próximas 3 rondas.",
-            "Simula un orgasmo de la forma más ruidosa y realista posible durante 20 segundos.",
-            "Deja que la persona a tu derecha te ponga un cubito de hielo en la boca y lo mueva hasta que se derrita.",
-            "Haz un striptease de 1 minuto para el grupo.",
-            "Elige a dos personas y tienen que lamerse la cara mutuamente.",
-            "Ve al baño con otro jugador (elegido por el grupo) y quédense ahí en silencio por 2 minutos.",
-            "Deja que el grupo te ponga crema batida en alguna parte del cuerpo y que otro jugador la lama.",
-            "Juega a 'verdad o reto' con la persona de tu derecha, pero solo pueden elegir reto extremo.",
-            "Envía una 'nude' (puede ser una parte del cuerpo no explícita como la espalda o una pierna) al grupo de WhatsApp.",
-            "Ponte a cuatro patas y deja que alguien te use como reposapiés durante una ronda.",
-            "Besa cada dedo de la mano de la persona que te parezca más atractiva.",
-            "Quítate la camisa/camiseta y deja que alguien te escriba una palabra en el pecho/espalda con un rotulador.",
-            "Hazle un masaje erótico en los pies a alguien durante 2 minutos.",
-            "Elige a la persona que peor te caiga del grupo y dale un beso en la boca.",
-            "Graba un audio de gemidos y envíalo al décimo contacto de tu lista.",
-            "El juego termina para ti si no te quitas toda la ropa hasta quedar en ropa interior."
-        ] 
-    },
-    remoto: { 
-        truths: [
-            "Muestra la última foto de tu galería sin dar explicaciones.",
-            "¿Cuál es tu historial de búsqueda más raro de la última semana? Comparte 3 búsquedas.",
-            "Lee en voz alta el último DM que enviaste en Instagram.",
-            "¿Qué llevas puesto de cintura para abajo ahora mismo? Muestra si te atreves.",
-            "Abre tu nevera o despensa y muestra la comida más vergonzosa que tienes.",
-            "¿Cuál es el fondo de pantalla de tu ordenador o móvil?",
-            "¿Con quién fue tu última videollamada y de qué hablaron?",
-            "Canta el estribillo de la canción que más te avergüenza que te guste.",
-            "¿Cuál es la cosa más extraña que tienes a tu alcance ahora mismo?",
-            "Describe tu habitación. ¿Está ordenada o es un caos?",
-            "¿Alguna vez has stalkeado a alguien del grupo en redes sociales?",
-            "¿Qué es lo más vergonzoso que ha visto tu cámara web por accidente?",
-            "Muestra la pestaña que más tiempo lleva abierta en tu navegador.",
-            "¿Cuál es el grupo de WhatsApp más raro en el que estás?",
-            "¿Qué es algo que haces cuando crees que nadie te ve?",
-            "Lee el último correo electrónico que recibiste.",
-            "¿Cuál es la app que más usas en tu móvil?",
-            "Describe el pijama que usas con más frecuencia.",
-            "¿Has mentido sobre tus habilidades en tu currículum?",
-            "¿Cuál es el mayor error que has cometido en una videollamada de trabajo/estudio?"
-        ], 
-        dares: [
-            "Publica una historia en Instagram con un filtro vergonzoso que elija el grupo.",
-            "Llama a un amigo en común (que no esté en el juego) y convéncelo de una noticia falsa.",
-            "Usa un objeto de tu cuarto como sombrero durante las próximas 2 rondas.",
-            "Cambia tu foto de perfil de WhatsApp por una foto de un vegetal durante 10 minutos.",
-            "Envía un mensaje de voz a tu madre diciendo 'lo siento, no volverá a pasar' sin contexto.",
-            "Haz 20 sentadillas frente a la cámara.",
-            "Busca en Google 'cómo ser un buen...' y deja que el autocompletar elija tu destino. Lee los resultados.",
-            "Ponte un calcetín en la mano y úsalo como un títere para presentarte de nuevo.",
-            "Pide comida a domicilio a casa de otro jugador (con su permiso).",
-            "Busca un tutorial de maquillaje en YouTube y trata de seguirlo durante 1 minuto.",
-            "Cambia tu nombre en la videollamada por un apodo ridículo que elija el grupo.",
-            "Dibuja un retrato de la persona a tu derecha en Paint y compártelo.",
-            "Intenta hacer el paso de baile 'moonwalk' frente a la cámara.",
-            "Come una galleta de la frente sin usar las manos.",
-            "Envía un email a tu jefe o profesor con un solo emoji: 👽.",
-            "Encuentra la prenda de ropa más fea que tengas y póntela.",
-            "Haz un tour por tu habitación mostrando solo el suelo.",
-            "Intenta hacer un beatbox durante 30 segundos.",
-            "Ponte pintalabios sin usar un espejo.",
-            "Apaga la cámara y solo puedes comunicarte con sonidos de animales hasta tu próximo turno."
-        ] 
-    }
+    rompehielos: { truths: ["Si pudieras tener un superpoder, ¿cuál sería?", "¿Cuál es la comida más rara que has probado?", "Si pudieras cenar con cualquier personaje histórico, ¿quién sería?", "Si tuvieras que ser un animal, ¿cuál serías y por qué?", "¿Cuál fue el último libro que leíste?", "¿Qué es lo más amable que alguien ha hecho por ti?", "¿Cuál es tu talento más inútil?", "¿Qué canción siempre te pone de buen humor?", "Si pudieras vivir en cualquier época, ¿cuál elegirías?", "¿Cuál es el mejor regalo que has recibido?", "¿Cuál es la aplicación de tu móvil que más usas?", "Si solo pudieras comer una cosa por el resto de tu vida, ¿qué sería?", "¿Cuál es tu recuerdo más feliz de la infancia?", "¿Qué es algo que siempre te hace reír sin importar qué?", "Si pudieras ser un experto instantáneo en cualquier campo, ¿cuál elegirías?", "¿Crees en fantasmas o en lo paranormal?", "¿Cuál es el trabajo de tus sueños?", "Si pudieras diseñar una atracción de un parque temático, ¿cómo sería?", "¿Qué es algo que la mayoría de la gente no sabe sobre ti?", "¿Prefieres la playa o la montaña? ¿Por qué?"], dares: ["Haz tu mejor imitación de un animal.", "Habla como un pirata hasta tu próximo turno.", "Crea un apretón de manos secreto con la persona de tu derecha.", "Intenta hacer beatbox durante 30 segundos.", "Nombra 5 cosas que podrías comprar en un supermercado que empiecen con la letra 'P'.", "Usa un cojín como si fuera tu mascota por el resto del juego.", "Haz una pose de superhéroe y mantenla por un minuto.", "Canta el estribillo de una canción muy cursi.", "Intenta tocarte la nariz con la lengua.", "Habla con susurros hasta tu próximo turno.", "Intenta dibujar un círculo perfecto con tu mano no dominante.", "Hazle cosquillas a la persona a tu derecha durante 15 segundos.", "Canta el estribillo de la canción infantil que más recuerdes.", "Haz una imitación de tu emoji favorito.", "Intenta mantener el equilibrio sobre un pie con los ojos cerrados durante 30 segundos.", "Propón un brindis muy solemne por el objeto más insignificante de la mesa.", "Intenta hacer reír a la persona más seria del grupo.", "Lee el último mensaje de texto que recibiste en voz alta.", "Haz diez saltos de tijera mientras cantas tu canción favorita.", "Habla como Yoda hasta tu próximo turno."] },
+    classic: { truths: ["¿Cuál es la cosa más vergonzosa que te ha pasado en una cita?", "¿Alguna vez has mentido en tu currículum?", "¿Cuál es el rumor más loco que has oído sobre ti?", "¿Has espiado el móvil de tu pareja?", "Si tuvieras que besar a alguien en esta sala, ¿quién sería?", "¿Qué es lo más ilegal que has hecho?", "¿Has roto algo en casa de alguien y no lo has dicho?", "¿Cuál es tu mayor 'red flag' en una pareja?", "¿Te has hecho pasar por enfermo para evitar un compromiso?", "¿Alguna vez te ha gustado la pareja de un amigo?", "¿Alguna vez te has meado en una piscina siendo adulto?", "¿Cuál es el regalo más feo que has recibido y has fingido que te encantaba?", "¿Has tenido alguna vez un sueño erótico con alguien presente?", "¿Qué es lo más vergonzoso que tus padres te han pillado haciendo?", "Si tuvieras que borrar una red social para siempre, ¿cuál sería?", "¿Alguna vez has culpado a alguien por algo que tú hiciste?", "¿Qué es lo más estúpido por lo que has discutido con una pareja?", "¿Revisas el perfil de tu ex en redes sociales?", "¿Cuál es tu 'Guilty Pleasure' musical?", "¿Te has comido algo que se te cayó al suelo aplicando la 'regla de los 5 segundos'?"], dares: ["Llama a un contacto al azar y intenta venderle un producto imaginario.", "Deja que el grupo te ponga un apodo vergonzoso para el resto de la noche.", "Haz una imitación de alguien famoso hasta que los demás adivinen.", "Publica una foto de tus pies en tus redes sociales.", "Intercambia una prenda de ropa con la persona a tu izquierda.", "Haz una llamada en broma a una tienda.", "Envía 'te echo de menos' al tercer contacto de tu WhatsApp.", "Actúa como si estuvieras borracho por las próximas 2 rondas.", "Come una cucharada de un condimento de la nevera.", "Haz 20 sentadillas mientras nombras personajes de Disney.", "Envía un mensaje a tu crush (o ex) diciendo 'estaba pensando en ti'.", "Ponte un cubito de hielo en el pantalón y aguanta hasta que se derrita.", "Haz una pasarela de moda improvisada mostrando tu 'look' de hoy.", "Llama a tus padres y diles que has decidido dedicarte al arte callejero.", "Deja que el grupo escriba una palabra en tu frente. No puedes verla hasta el final del juego.", "Haz 20 flexiones o sentadillas.", "Come una rodaja de limón o lima sin hacer ninguna mueca.", "Deja que alguien te haga cosquillas en los pies por 30 segundos.", "Hazle una broma telefónica a un amigo que no esté en la fiesta.", "Quítate los calcetines y úsalos como guantes por el resto de la ronda."] },
+    sinfiltro: { truths: ["¿Con quién de los presentes has fantaseado?", "¿Cuál es el lugar más público donde has tenido relaciones?", "¿Alguna vez has estado con más de una persona a la vez?", "¿Qué es lo más 'kinky' que has probado?", "Muestra el último vídeo porno que viste.", "¿Cuál es tu postura sexual favorita y por qué?", "¿Has usado juguetes sexuales? Describe tu favorito.", "Confiesa una infidelidad (propia o que conozcas de cerca).", "¿Qué es lo que más te excita de la persona a tu derecha?", "¿Te has acostado con la ex pareja de un amigo/a?", "¿Qué es lo más rápido que has tardado en acostarte con alguien desde que lo conociste?", "¿Alguna vez te han pillado masturbándote?", "¿Has tenido sexo en casa de tus padres mientras ellos estaban allí?", "Describe el orgasmo más intenso que has tenido.", "¿Prefieres dominar o ser dominado/a en la cama?", "¿Has probado el BDSM o alguna práctica similar?", "¿Qué es algo que te da vergüenza pedir en la cama pero que te encantaría probar?", "Si tuvieras que calificar tus habilidades como amante del 1 al 10, ¿qué nota te pondrías?", "¿Cuál es la mayor locura que has hecho por amor o por deseo?", "Describe el beso más memorable que has dado o recibido."], dares: ["Dale un beso francés de 20 segundos a alguien elegido por el grupo.", "Quítate una prenda de ropa.", "Haz un 'lap dance' de 30 segundos a la persona de tu elección.", "Deja que alguien te dé una nalgada.", "Chúpale el dedo a la persona que te parezca más sexy.", "Susúrrale al oído a alguien la descripción de lo que le harías en la cama.", "Elige a dos personas para que se besen (pico).", "Muerde suavemente el lóbulo de la oreja de la persona de tu izquierda.", "Quítale una prenda de ropa a alguien usando solo la boca.", "Haz un 'body shot' en el cuello o abdomen de alguien.", "Elige a una persona y quítale una prenda de ropa con la boca.", "Hazle un 'body shot' a alguien (sal, tequila/shot, limón).", "Elige a una persona. Ambos deben beber un trago mientras se miran fijamente a los ojos. El primero que se ría, bebe otro.", "Huele el cuello de cada jugador y adivina qué perfume o loción llevan.", "Quítate los pantalones y juega sin ellos durante 2 rondas.", "Dale de comer algo a alguien en la boca de forma sensual.", "Escribe el nombre de tu celebrity crush en el abdomen de alguien con tu dedo.", "Hazle una foto sexy a tu pie y ponla como foto de perfil de WhatsApp durante 10 minutos.", "Elige a una persona para que te susurre su fantasía más secreta. No puedes contársela a nadie.", "Haz un ranking de los jugadores de la sala según lo bien que crees que besan."] },
+    prohibido: { truths: ["¿Con quién de esta sala tendrías el sexo más animal y por qué?", "¿Cuál es el secreto más oscuro que sabes de alguien presente?", "Describe la fantasía más tabú que tienes involucrando a alguien del grupo.", "¿Qué es lo más degradante que has hecho por placer?", "Si tuvieras que elegir, ¿te acostarías con la pareja de tu mejor amigo?", "Muestra al grupo la conversación más caliente que tengas en tu móvil.", "Describe con detalle la última vez que te masturbaste.", "¿Has tenido alguna vez una experiencia sexual que podría considerarse ilegal?", "¿Cuál es la parte del cuerpo de alguien en esta sala que más te gustaría lamer?", "¿Alguna vez has pagado por sexo?", "¿Cuál es la fantasía sexual más detallada que tienes con alguien de esta sala?", "¿Has tenido un orgasmo pensando en alguien que no debías?", "¿Qué es lo más vergonzoso que has hecho para satisfacerte sexualmente?", "¿Has espiado a alguien mientras se cambiaba o se duchaba?", "¿Cuál es la parte de tu propio cuerpo que más te excita?", "Si tuvieras que hacer un trío con dos personas de esta sala, ¿a quiénes elegirías?", "¿Cuál es el secreto de otro jugador que sabes que, si lo revelaras, cambiaría la dinámica del grupo?", "¿Has tenido sexo con más de una persona en un periodo de 24 horas?", "¿Qué es lo más cerca que has estado de engañar a tu pareja?", "¿Has tenido alguna vez una fantasía con alguien del mismo sexo? Describe la fantasía."], dares: ["Quítate la ropa hasta quedar en ropa interior y juega así hasta tu próximo turno.", "Elige a una persona. Tienes permiso para tocar sus genitales por encima de la ropa durante 30 segundos.", "Lame una línea de sal desde el cuello hasta el ombligo de otro jugador.", "Da un beso francés a cada persona en la sala.", "Intercambia una prenda de ropa interior con la persona de enfrente.", "Realiza un striptease de 1 minuto para el grupo.", "Deja que el grupo te vende los ojos y te dé besos en el cuello. Tienes que adivinar quién fue.", "Arrodíllate y actúa como la mascota de alguien por una ronda.", "Elige a dos personas. Tienen que meterse juntos en un armario por 5 minutos.", "El grupo escribe una palabra en una parte de tu cuerpo cubierta por la ropa. Tienes que adivinarla solo con el tacto.", "Elige a una persona. Ambos deben quitarse una prenda de ropa y ponérsela al otro.", "Besa a la persona de tu izquierda. El beso debe empezar en la mejilla y bajar hasta la clavícula.", "Elige a una persona. Tienes que quitarle los zapatos y los calcetines y masajearle los pies durante un minuto.", "Elige a dos jugadores. Deben meterse juntos en un armario o un espacio pequeño durante 3 minutos.", "Quítate la camiseta y deja que alguien dibuje algo en tu espalda con su dedo. Tienes que adivinar qué es.", "Dale una lamida al cuello de cada jugador presente.", "Elige a alguien. Tienen que darse de comer el uno al otro un trozo de fruta de la forma más erótica posible.", "Siéntate en el suelo. La persona a tu derecha tiene que pasar por encima de ti muy lentamente.", "Elige a alguien y dale un beso con los ojos vendados. El grupo te guiará hasta esa persona.", "Elige a un jugador. Debes meter tu mano por debajo de su camisa/camiseta y tocarle el pecho/espalda durante 30 segundos."] }
 };
 
-const cardsData = [
-    { type: 'wildcard', title: "El Imitador", description: "El grupo elige a otro jugador. Debes imitarlo durante 3 rondas. Si se te olvida, ¡bebes!", modes: ['all'] },
-    { type: 'wildcard', title: "Mano de T-Rex", description: "Durante 2 rondas, debes mantener tus codos pegados a los costados para todo.", modes: ['all'] },
-    { type: 'wildcard', title: "El Poeta Borracho", description: "Debes hablar en rima durante 3 rondas. Si no rimas, ¡bebes!", modes: ['all'] },
-    { type: 'wildcard', title: "Salto de Turno", description: "¡Te salvaste! Pasas tu turno.", effect: (game) => { game.skipTurn = true; }, modes: ['all'] },
-    { type: 'wildcard', title: "Intercambio de Identidad", description: "Elige a otro jugador. Intercambien sus nombres por 3 rondas. Quien se equivoque, ¡bebe!", modes: ['all'] },
-    { type: 'wildcard', title: "El Narrador Deportivo", description: "Debes narrar todo lo que pasa en el juego como si fueras un comentarista de fútbol hasta tu próximo turno.", modes: ['all'] },
-    { type: 'bomb', title: "Shot en Cadena", description: "¡Mala suerte! Tomas 1 shot puro. Luego, eliges a otro jugador para que tome 2.", modes: ['classic', 'hot', 'extreme'] },
-    { type: 'bomb', title: "El Muro de la Vergüenza", description: "El grupo escribe un estado vergonzoso para que lo publiques en una de tus redes sociales.", modes: ['all'] },
-    { type: 'bomb', title: "El Exiliado", description: "Durante la próxima ronda completa, no puedes hablar ni reír. Si lo haces, bebes.", modes: ['all'] },
-    { type: 'bomb', title: "El Sirviente Real", description: "Durante las próximas 3 rondas, eres el sirviente de bebidas oficial del grupo.", modes: ['all'] },
-    { type: 'bomb', title: "Teléfono sobre la Mesa", description: "Tu móvil desbloqueado sobre la mesa. El grupo tiene 1 minuto para enviar un mensaje gracioso a tu último contacto de WhatsApp.", modes: ['classic', 'hot', 'extreme'] },
+const generalCards = [
+    { type: 'wildcard', title: "El Imitador", description: "Elige a alguien y debes imitarlo durante 3 rondas. Si fallas, bebes." },
+    { type: 'wildcard', title: "Cascada", description: "¡Todos a beber! Empiezas tú y nadie para hasta que tú lo hagas." },
+    { type: 'wildcard', title: "Rey del Pulgar", description: "Eres el 'Thumb Master'. Pon tu pulgar en la mesa en cualquier momento. El último en copiarte, bebe." },
+    { type: 'bomb', title: "Shot en Cadena", description: "Tomas 1 shot puro. Luego, eliges a otro para que tome 2." },
+    { type: 'bomb', title: "Muro de la Vergüenza", description: "El grupo escribe un estado vergonzoso para que lo publiques en tus redes." },
+    { type: 'bomb', title: "El Exiliado", description: "No puedes hablar ni reír durante la próxima ronda. Si lo haces, bebes." }
 ];
+
+const prohibitedCards = [
+    { type: 'wildcard', title: "Círculo del Beso", description: "Empiezas tú, besas a la persona de tu derecha, y así sucesivamente. El último beso, de vuelta a ti, es con lengua." },
+    { type: 'wildcard', title: "Siete Minutos: Ropa Opcional", description: "Elige a alguien. Vayan a un cuarto por 7 minutos. Al menos una prenda principal debe ser retirada por cada uno." },
+    { type: 'wildcard', title: "Rey/Reina de la Noche", description: "Tienes el poder. Da UNA orden del Modo Prohibido a CUALQUIER jugador. No se puede negar." },
+    { type: 'bomb', title: "Confesión Forzada", description: "Entrega tu teléfono. El grupo tiene 3 minutos para leer en voz alta cualquier conversación que elijan." },
+    { type: 'bomb', title: "Ruleta de Ropa Interior", description: "Debes quitarte la ropa interior y dársela a la persona de tu izquierda. No la recuperas hasta el final." },
+    { type: 'bomb', title: "El Reto Definitivo", description: "El jugador anterior inventa un reto extremo para ti. No puedes negarte." }
+];
+
+const finalBombGeneral = {
+    title: "El Camino del Campeón 🏆",
+    description: "Para ganar, debes superar 3 mini-retos diseñados por los demás jugadores. Si fallas uno, pierdes 3 puntos y el juego continúa."
+};
+
+const finalBombProhibido = {
+    title: "El Peaje del Placer 😈",
+    description: "Para ganar, debes elegir una de dos opciones. Si te niegas a ambas, pierdes la mitad de tus puntos.",
+    options: {
+        a: "Opción A: La Ofrenda (Dar placer)",
+        b: "Opción B: La Sumisión (Recibir placer)"
+    }
+};
 
 const gameState = {
     mode: 'classic', players: [], turnOrder: [], currentPlayerIndex: 0, isCompetitive: false,
@@ -274,15 +62,7 @@ export function setMode(newMode) { gameState.mode = newMode; }
 export function setCompetitive(isCompetitive) { gameState.isCompetitive = isCompetitive; }
 export function addPlayer(name, gender) {
     if (name && !gameState.players.find(p => p.name === name)) {
-        gameState.players.push({ name, gender, drinks: 0, points: 0, team: null });
-        return true;
-    }
-    return false;
-}
-export function addTeamPlayer(name, team) {
-    if (name && !gameState.players.find(p => p.name === name)) {
-        const gender = team === 'boys' ? 'male' : 'female';
-        gameState.players.push({ name, gender, drinks: 0, points: 0, team });
+        gameState.players.push({ name, gender, drinks: 0, points: 0 });
         return true;
     }
     return false;
@@ -293,21 +73,8 @@ export function addCustomQuestion(type, text) {
     else gameState.customDares.push(text);
 }
 export function prepareGame() {
-    if (gameState.mode === 'teams') {
-        const boys = gameState.players.filter(p => p.team === 'boys');
-        const girls = gameState.players.filter(p => p.team === 'girls');
-        _shuffleArray(boys); _shuffleArray(girls);
-        gameState.turnOrder = [];
-        let i = 0;
-        while (i < boys.length || i < girls.length) {
-            if (i < boys.length) gameState.turnOrder.push(boys[i]);
-            if (i < girls.length) gameState.turnOrder.push(girls[i]);
-            i++;
-        }
-    } else {
-        gameState.turnOrder = [...gameState.players];
-        _shuffleArray(gameState.turnOrder);
-    }
+    gameState.turnOrder = [...gameState.players];
+    _shuffleArray(gameState.turnOrder);
     _reloadQuestions();
 }
 export function nextPlayer() { gameState.currentPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.turnOrder.length; }
@@ -320,10 +87,21 @@ export function getQuestion(type) {
     return pool.pop();
 }
 export function triggerCard() {
-    const available = cardsData.filter(w => w.modes.includes('all') || w.modes.includes(gameState.mode));
-    const card = available[Math.floor(Math.random() * available.length)];
+    let pool = gameState.mode === 'prohibido' ? [...generalCards, ...prohibitedCards] : generalCards;
+    const card = pool[Math.floor(Math.random() * pool.length)];
     if(card.effect) card.effect(gameState);
     return card;
+}
+export function getFinalBomb() {
+    if (gameState.isCompetitive) {
+        const player = gameState.turnOrder[gameState.currentPlayerIndex];
+        if (player.points >= 8) {
+            if (Math.random() < 0.75) {
+                return gameState.mode === 'prohibido' ? finalBombProhibido : finalBombGeneral;
+            }
+        }
+    }
+    return null;
 }
 export function addDrinkToCurrentPlayer() {
     const player = gameState.turnOrder[gameState.currentPlayerIndex];
@@ -335,8 +113,8 @@ export function updatePointsForCurrentPlayer(wasSuccessful) {
 }
 export function getSkipPunishment() {
     switch (gameState.mode) {
-        case 'hot': return "Debes tomar 2 SHOTS PUROS.";
-        case 'extreme': return "Debes tomar 3 SHOTS PUROS.";
+        case 'sinfiltro': return "Debes tomar 2 SHOTS PUROS.";
+        case 'prohibido': return "Debes tomar 3 SHOTS PUROS.";
         default: return "Debes tomar 1 SHOT PURO.";
     }
 }

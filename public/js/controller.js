@@ -21,6 +21,28 @@ function startGame() {
 function startTurn() {
     const player = gameState.turnOrder[gameState.currentPlayerIndex];
     view.showTurn(player, gameState.isCompetitive, gameState.turnOrder);
+
+    const finalBomb = model.getFinalBomb();
+    if (finalBomb) {
+        view.showFinalBombModal(
+            finalBomb,
+            () => { // Opción A o Aceptar
+                view.hideModal();
+                view.showWinnerModal(player, resetAndGoToMenu);
+            },
+            () => { // Opción B
+                view.hideModal();
+                view.showWinnerModal(player, resetAndGoToMenu);
+            },
+            () => { // Fallar / Negarse
+                if (gameState.mode === 'prohibido') player.points = Math.floor(player.points / 2);
+                else player.points -= 3;
+                view.hideModal();
+                nextPlayer();
+            }
+        );
+        return;
+    }
     
     if (gameState.skipTurn) {
         gameState.skipTurn = false;
@@ -28,11 +50,9 @@ function startTurn() {
         return;
     }
     
-    // 25% de probabilidad de carta especial
     if (Math.random() < 0.25) {
         const card = model.triggerCard();
         view.showCard(card);
-        // Si la carta afectó a todos, actualizar la vista del jugador actual
         if (card.title === "Bebida para Todos") view.showTurn(player, gameState.isCompetitive, gameState.turnOrder);
     } else {
         view.showNormalTurn();
@@ -54,7 +74,7 @@ function handleOutcome(wasSuccessful) {
             "¡Te has negado!", 
             `Como castigo, ${punishment}.`, 
             () => {
-                model.addDrinkToCurrentPlayer(); // Opcional, el castigo principal es el shot
+                model.addDrinkToCurrentPlayer();
                 view.hideModal();
                 nextPlayer();
             }
@@ -103,27 +123,10 @@ function setupEventListeners() {
         if(model.addPlayer(DOM.inputs.playerName.value, DOM.inputs.gender())) {
             view.renderPlayers(gameState.players, gameState.mode);
             view.clearInput(DOM.inputs.playerName);
-            view.setStartButtonState(gameState.players.length < 2);
+            view.setStartButtonState(gameState.players.length < 1); // Se puede jugar solo
         }
     });
-    DOM.buttons.addBoy.addEventListener('click', () => {
-        if(model.addTeamPlayer(DOM.inputs.boyName.value, 'boys')) {
-            view.renderPlayers(gameState.players, gameState.mode);
-            view.clearInput(DOM.inputs.boyName);
-            const boysCount = gameState.players.filter(p => p.team === 'boys').length;
-            const girlsCount = gameState.players.filter(p => p.team === 'girls').length;
-            view.setStartButtonState(boysCount < 1 || girlsCount < 1);
-        }
-    });
-    DOM.buttons.addGirl.addEventListener('click', () => {
-         if(model.addTeamPlayer(DOM.inputs.girlName.value, 'girls')) {
-            view.renderPlayers(gameState.players, gameState.mode);
-            view.clearInput(DOM.inputs.girlName);
-            const boysCount = gameState.players.filter(p => p.team === 'boys').length;
-            const girlsCount = gameState.players.filter(p => p.team === 'girls').length;
-            view.setStartButtonState(boysCount < 1 || girlsCount < 1);
-        }
-    });
+    
     DOM.containers.playerListContainer.addEventListener('click', (e) => {
         if(e.target.classList.contains('remove-player-btn')) {
             model.removePlayer(e.target.dataset.playerName);
