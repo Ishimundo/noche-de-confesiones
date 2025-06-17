@@ -3,9 +3,9 @@ const getEl = (id) => document.getElementById(id);
 const DOM = {
     sections: { main: getEl('main-menu-section'), rules: getEl('rules-section'), mode: getEl('mode-selection-section'), custom: getEl('custom-questions-section'), setup: getEl('setup-section'), game: getEl('game-section') },
     gameSubSections: { turn: getEl('turn-section'), scoreboard: getEl('scoreboard') },
-    buttons: { startPlaying: getEl('start-playing-btn'), howToPlayBtn: getEl('how-to-play-btn'), backToMainFromRulesBtn: getEl('back-to-main-from-rules-btn'), modeButtons: getEl('mode-buttons'), backToMain: getEl('back-to-main-menu-btn'), addCustomTruth: getEl('add-custom-truth-btn'), addCustomDare: getEl('add-custom-dare-btn'), continueToPlayers: getEl('continue-to-players-btn'), addPlayer: getEl('add-player-btn'), addBoy: getEl('add-boy-btn'), addGirl: getEl('add-girl-btn'), startGame: getEl('start-game-btn'), backToMode: getEl('back-to-mode-btn'), truthBtn: getEl('truth-btn'), dareBtn: getEl('dare-btn'), successBtn: getEl('success-btn'), failBtn: getEl('fail-btn'), nextTurnBtn: getEl('next-turn-btn'), endGameBtn: getEl('end-game-btn'), addDrinkBtn: getEl('add-drink-btn') },
-    inputs: { customTruth: getEl('custom-truth-input'), customDare: getEl('custom-dare-input'), playerName: getEl('player-name-input'), boyName: getEl('boys-name-input'), girlName: getEl('girls-name-input'), gender: () => document.querySelector('input[name="gender"]:checked').value, enablePoints: getEl('enable-points-checkbox') },
-    displays: { setupTitle: getEl('setup-title'), customTruthList: getEl('custom-truth-list'), customDareList: getEl('custom-dare-list'), playerList: getEl('player-list'), boysList: getEl('boys-list'), girlsList: getEl('girls-list'), individualSetup: getEl('individual-player-setup'), teamSetup: getEl('team-player-setup'), scoreboardList: getEl('scoreboard-list'), currentPlayer: getEl('current-player-display'), drinkCount: getEl('drink-count'), question: getEl('question-display'), wildcard: getEl('wildcard-display'), wildcardTitle: getEl('wildcard-title'), wildcardDescription: getEl('wildcard-description'), },
+    buttons: { startPlaying: getEl('start-playing-btn'), howToPlayBtn: getEl('how-to-play-btn'), backToMainFromRulesBtn: getEl('back-to-main-from-rules-btn'), modeButtons: getEl('mode-buttons'), backToMain: getEl('back-to-main-menu-btn'), addCustomTruth: getEl('add-custom-truth-btn'), addCustomDare: getEl('add-custom-dare-btn'), continueToPlayers: getEl('continue-to-players-btn'), addPlayer: getEl('add-player-btn'), startGame: getEl('start-game-btn'), backToMode: getEl('back-to-mode-btn'), truthBtn: getEl('truth-btn'), dareBtn: getEl('dare-btn'), successBtn: getEl('success-btn'), failBtn: getEl('fail-btn'), nextTurnBtn: getEl('next-turn-btn'), endGameBtn: getEl('end-game-btn'), addDrinkBtn: getEl('add-drink-btn') },
+    inputs: { customTruth: getEl('custom-truth-input'), customDare: getEl('custom-dare-input'), playerName: getEl('player-name-input'), gender: () => document.querySelector('input[name="gender"]:checked').value, enablePoints: getEl('enable-points-checkbox') },
+    displays: { setupTitle: getEl('setup-title'), customTruthList: getEl('custom-truth-list'), customDareList: getEl('custom-dare-list'), playerList: getEl('player-list'), individualSetup: getEl('individual-player-setup'), scoreboardList: getEl('scoreboard-list'), currentPlayer: getEl('current-player-display'), drinkCount: getEl('drink-count'), question: getEl('question-display'), wildcard: getEl('wildcard-display'), wildcardTitle: getEl('wildcard-title'), wildcardDescription: getEl('wildcard-description'), },
     containers: { choiceButtons: getEl('choice-buttons'), outcomeButtons: getEl('outcome-buttons'), nextTurnButton: getEl('next-turn-button-container'), playerListContainer: getEl('player-list-container'), modalOptions: getEl('modal-options-container'), modalButtons: getEl('modal-buttons-container') },
     modal: { el: getEl('confirmation-modal'), title: getEl('modal-title'), text: getEl('modal-text'), confirmBtn: getEl('modal-confirm-btn'), cancelBtn: getEl('modal-cancel-btn'), }
 };
@@ -23,13 +23,11 @@ export function showSection(sectionName) {
     if (DOM.sections[sectionName]) DOM.sections[sectionName].classList.remove('hidden');
 }
 
-export function setupPlayerScreen(mode) {
-    const isTeamMode = mode === 'teams';
-    DOM.displays.individualSetup.style.display = isTeamMode ? 'none' : 'block';
-    // Se elimina la lógica del team setup ya que no hay modo equipos
+export function setupPlayerScreen() {
+    DOM.displays.individualSetup.style.display = 'block';
 }
 
-export function renderPlayers(players, mode) {
+export function renderPlayers(players) {
     DOM.displays.playerList.innerHTML = '';
     players.forEach(p => _renderPlayerTag(p, DOM.displays.playerList, 'bg-gray-600'));
 }
@@ -93,7 +91,7 @@ export function showCard(card) {
 
 export function showConfirmationModal(title, text, onConfirm) {
     DOM.modal.el.classList.remove('hidden');
-    DOM.containers.modalOptions.innerHTML = ''; // Limpiar opciones
+    DOM.containers.modalOptions.innerHTML = '';
     DOM.containers.modalButtons.classList.remove('hidden');
     DOM.modal.title.innerText = title;
     DOM.modal.text.innerText = text;
@@ -145,17 +143,12 @@ export function showFinalBombModal(bomb, onConfirmOptionA, onConfirmOptionB, onF
         optionsContainer.appendChild(failBtn);
 
     } else {
-        const acceptBtn = document.createElement('button');
-        acceptBtn.textContent = 'Acepto el reto';
-        acceptBtn.className = 'w-full bg-green-600 font-bold py-2 px-4 rounded-lg';
-        acceptBtn.onclick = () => onConfirmOptionA();
-        optionsContainer.appendChild(acceptBtn);
-
-        const failBtn = document.createElement('button');
-        failBtn.textContent = 'Me niego';
-        failBtn.className = 'w-full bg-gray-600 font-bold py-2 px-4 rounded-lg mt-2';
-        failBtn.onclick = () => onFail();
-        optionsContainer.appendChild(failBtn);
+        DOM.containers.modalButtons.classList.remove('hidden');
+        DOM.modal.confirmBtn.classList.remove('hidden');
+        DOM.modal.confirmBtn.textContent = 'Acepto el reto';
+        DOM.modal.confirmBtn.onclick = onConfirmOptionA;
+        DOM.modal.cancelBtn.textContent = 'Me niego';
+        DOM.modal.cancelBtn.onclick = onFail;
     }
 }
 

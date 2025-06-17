@@ -8,7 +8,7 @@ function selectMode(mode) {
 
 function showPlayerSetup() { 
     view.showSection('setup'); 
-    view.setupPlayerScreen(gameState.mode); 
+    view.setupPlayerScreen(); 
 }
 
 function startGame() {
@@ -121,16 +121,17 @@ function setupEventListeners() {
     DOM.buttons.continueToPlayers.addEventListener('click', showPlayerSetup);
     DOM.buttons.addPlayer.addEventListener('click', () => {
         if(model.addPlayer(DOM.inputs.playerName.value, DOM.inputs.gender())) {
-            view.renderPlayers(gameState.players, gameState.mode);
+            view.renderPlayers(gameState.players);
             view.clearInput(DOM.inputs.playerName);
-            view.setStartButtonState(gameState.players.length < 1); // Se puede jugar solo
+            view.setStartButtonState(gameState.players.length < 1);
         }
     });
     
     DOM.containers.playerListContainer.addEventListener('click', (e) => {
         if(e.target.classList.contains('remove-player-btn')) {
             model.removePlayer(e.target.dataset.playerName);
-            view.renderPlayers(gameState.players, gameState.mode);
+            view.renderPlayers(gameState.players);
+            view.setStartButtonState(gameState.players.length < 1);
         }
     });
     DOM.buttons.startGame.addEventListener('click', startGame);
