@@ -1,6 +1,8 @@
 import gameState, * as model from './model.js';
 import DOM, * as view from './view.js';
 
+let currentModalConfirmAction = () => {};
+
 function selectMode(mode) { 
     model.setMode(mode); 
     view.showSection('custom'); 
@@ -70,15 +72,12 @@ function handleOutcome(wasSuccessful) {
         nextPlayer();
     } else { 
         const punishment = model.getSkipPunishment();
-        view.showConfirmationModal(
-            "¡Te has negado!", 
-            `Como castigo, ${punishment}.`, 
-            () => {
-                model.addDrinkToCurrentPlayer();
-                view.hideModal();
-                nextPlayer();
-            }
-        );
+        currentModalConfirmAction = () => {
+            model.addDrinkToCurrentPlayer();
+            view.hideModal();
+            nextPlayer();
+        };
+        view.showConfirmationModal( "¡Te has negado!", `Como castigo, ${punishment}.`);
         DOM.modal.cancelBtn.classList.add('hidden');
     }
 }
@@ -86,7 +85,8 @@ function handleOutcome(wasSuccessful) {
 function nextPlayer() {
     if (gameState.isCompetitive && gameState.turnOrder.some(p => p.points >= 10)) {
         const winner = gameState.turnOrder.reduce((p, c) => c.points > p.points ? c : p);
-        view.showWinnerModal(winner, resetAndGoToMenu);
+        currentModalConfirmAction = resetAndGoToMenu;
+        view.showWinnerModal(winner, currentModalConfirmAction);
         return;
     }
     model.nextPlayer();
@@ -146,9 +146,15 @@ function setupEventListeners() {
         view.showTurn(gameState.turnOrder[gameState.currentPlayerIndex], gameState.isCompetitive, gameState.turnOrder);
     });
     DOM.buttons.endGameBtn.addEventListener('click', () => {
-        view.showConfirmationModal("¿Finalizar Juego?", "Todo el progreso se perderá. ¿Estás seguro?", resetAndGoToMenu);
+        currentModalConfirmAction = resetAndGoToMenu;
+        view.showConfirmationModal("¿Finalizar Juego?", "Todo el progreso se perderá. ¿Estás seguro?");
     });
     DOM.modal.cancelBtn.addEventListener('click', view.hideModal);
+    DOM.modal.confirmBtn.addEventListener('click', () => {
+        if (typeof currentModalConfirmAction === 'function') {
+            currentModalConfirmAction();
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {

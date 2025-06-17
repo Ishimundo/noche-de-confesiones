@@ -7,11 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#111827"/>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
 
     <div id="app-container" class="w-full max-w-lg mx-auto">
-        <!-- PANTALLA DE INICIO -->
         <div id="main-menu-section" class="card-bg rounded-2xl p-6 shadow-2xl fade-in">
             <h1 class="text-4xl font-bold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-red-400">Noche de Confesiones</h1>
             <p class="text-center text-gray-400 mb-6">El juego que tus amigos nunca olvidarán.</p>
@@ -21,7 +21,6 @@
             </div>
         </div>
 
-        <!-- REGLAS DEL JUEGO -->
         <div id="rules-section" class="card-bg rounded-2xl p-6 shadow-2xl hidden text-left">
             <h1 class="text-3xl font-bold text-center mb-4 text-teal-400">Reglas del Juego</h1>
             <div class="space-y-4 text-gray-300 max-h-[60vh] overflow-y-auto pr-2">
@@ -43,7 +42,6 @@
              <button id="back-to-main-from-rules-btn" class="w-full mt-6 bg-teal-500 text-gray-900 font-bold py-3 px-4 rounded-lg hover:bg-teal-600">Entendido</button>
         </div>
         
-        <!-- SELECCIÓN DE MODO -->
         <div id="mode-selection-section" class="card-bg rounded-2xl p-6 shadow-2xl hidden">
             <h1 class="text-3xl font-bold text-center mb-6 text-teal-400">Elige el Modo de Juego</h1>
             <div id="mode-buttons" class="grid grid-cols-1 gap-4">
@@ -147,18 +145,17 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script type="module" src="js/controller.js"></script>
     <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').then(registration => {
-                console.log('Service Worker registrado con éxito:', registration);
-            }).catch(registrationError => {
-                console.log('Fallo en el registro del Service Worker:', registrationError);
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('Service Worker registrado con éxito:', registration);
+                }).catch(registrationError => {
+                    console.log('Fallo en el registro del Service Worker:', registrationError);
+                });
             });
-        });
-    }
-</script>
+        }
+    </script>
 </body>
 </html>

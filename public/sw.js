@@ -22,7 +22,6 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Si el recurso está en caché, lo devolvemos. Si no, lo buscamos en la red.
         return response || fetch(event.request);
       })
   );
