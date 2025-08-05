@@ -124,8 +124,18 @@ export function showNormalTurn() {
     DOM.containers.nextTurnButton.classList.add('hidden');
 }
 
-export function showQuestion(question, isCompetitive) {
-    DOM.displays.question.innerText = question || "¡No quedan más preguntas!";
+export function showQuestion(challenge, isCompetitive) {
+    let challengeText = "";
+    if (typeof challenge === 'object' && challenge !== null) {
+        challengeText = challenge.text;
+        if (challenge.isFuego) {
+            challengeText = `🔥 ${challengeText} 🔥`;
+        }
+    } else {
+        challengeText = challenge || "¡No quedan más preguntas!";
+    }
+
+    DOM.displays.question.innerText = challengeText;
     DOM.containers.choiceButtons.classList.add('hidden');
     if (isCompetitive) DOM.containers.outcomeButtons.classList.remove('hidden');
     else DOM.containers.nextTurnButton.classList.remove('hidden');
@@ -214,11 +224,13 @@ export function applyTheme(mode) {
 
 export function showGameOverScreen(stats) {
     const summaryDiv = DOM.displays.gameSummary;
-    summaryDiv.innerHTML = `
-        <p>👑 **Rey/Reina de la Noche:** ${stats.winner.name} (${stats.winner.points} pts)</p>
-        <p>🤡 **Castigado/a Final:** ${stats.loser.name} (${stats.loser.points} pts)</p>
-        <p>🍻 **Borracho/a Oficial:** ${stats.drunkard.name} (${stats.drunkard.drinks} tragos)</p>
-    `;
+    if (summaryDiv) {
+        summaryDiv.innerHTML = `
+            <p>👑 **Rey/Reina de la Noche:** ${stats.winner.name} (${stats.winner.points} pts)</p>
+            <p>🤡 **Castigado/a Final:** ${stats.loser.name} (${stats.loser.points} pts)</p>
+            <p>🍻 **Borracho/a Oficial:** ${stats.drunkard.name} (${stats.drunkard.drinks} tragos)</p>
+        `;
+    }
     animateScreenTransition(DOM.sections.game, DOM.sections.gameOver);
 }
 

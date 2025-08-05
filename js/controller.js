@@ -64,9 +64,15 @@ function handleOutcome(wasSuccessful) {
     } else { 
         const punishment = model.getSkipPunishment();
         currentModalConfirmAction = () => {
-            model.addDrinkToCurrentPlayer();
-            view.hideModal();
-            nextPlayer();
+            if (gameState.currentChallenge?.isFuego && gameState.mode === 'prohibido') {
+                view.hideModal();
+                alert("¡El grupo ahora debe elegir un reto de la lista para que lo cumplas!");
+                nextPlayer();
+            } else {
+                model.addDrinkToCurrentPlayer();
+                view.hideModal();
+                nextPlayer();
+            }
         };
         view.showConfirmationModal( "¡Te has negado!", `Como castigo, ${punishment}.`);
         DOM.modal.cancelBtn.classList.add('hidden');
@@ -74,7 +80,7 @@ function handleOutcome(wasSuccessful) {
 }
 
 function nextPlayer() {
-    if (gameState.isCompetitive && gameState.turnOrder.some(p => p.points >= 10)) {
+    if (gameState.isCompetitive && gameState.turnOrder.some(p => p.points >= 20)) {
         endGame();
         return;
     }
@@ -102,7 +108,7 @@ function handleFinalBomb(option) {
         else player.points -= 3;
         view.hideModal();
         nextPlayer();
-    } else { // 'a' or 'b'
+    } else {
         view.hideModal();
         endGame();
     }
